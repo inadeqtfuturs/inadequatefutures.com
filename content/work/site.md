@@ -1,8 +1,8 @@
 ---
 type: portfolio
 title: if
-repo: https://github.com/inadeqtfuturs/spotify-dashboard
-site: https://spotify-dashboard.vercel.app/
+repo: https://github.com/inadeqtfuturs/inadequatefutures.com
+# site: https://spotify-dashboard.vercel.app/
 tech:
   - next
   - stitches

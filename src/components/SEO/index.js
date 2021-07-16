@@ -18,12 +18,12 @@ export default function SEO({
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${process.env.URL}/${ogImage}`} />
+      <meta property="og:image" content={`${process.env.NEXT_PUBLIC_URL}/${ogImage}`} />
       <meta property="og:image:width" content="700" />
       <meta property="og:image:height" content="700" />
       <meta name="twitter:site" content={twitter} />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content={`${process.env.URL}/${ogImage}`} />
+      <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_URL}/${ogImage}`} />
     </Head>
   );
 }

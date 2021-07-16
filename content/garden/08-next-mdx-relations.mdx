@@ -1,0 +1,135 @@
+---
+title: next-mdx-relations
+author: alex christie
+date: '2021-07-07T14:55:52-06:00'
+type: garden
+tags: ['nextjs', 'next-mdx-remote', 'next-mdx-relations']
+excerpt: a tool for turning you markdown files into a digital garden by drawing relations between static files
+draft: false
+---
+
+Much of my thinking over the last year or so has been about [digital gardening](https://maggieappleton.com/garden-history). I've written about [rethinking the digital gardening metaphor](/garden/03-rethinking-digital-gardening) and started building out [digital-garden.dev](https://digital-garden.dev) as a place to practice some of that thinking. In really broad strokes, I'm interested in the following:
+
+1. Low friction authoring: write in markdown, but the system you use takes care of the rest
+2. alternative/anti-hierarchical data arrangements: no pagination, but easily parsed lists of information
+3. relational data: content is not the 'thing'. relations between things is the 'thing'
+
+Some of this is idiosyncratic and theoretical, but a lot of it is practical. I want to develop tools that allow people to quickly and easily create digital gardens. [digital-garden.dev](https://digital-garden.dev) was supposed to be that tool, but I wanted to try developing a package rather than  boilerplate for gardening. [`next-mdx-relations`](https://github.com/inadeqtfuturs/next-mdx-relations) is a lower level tool for gardening that provides a more agnostic api for generating pages from `md/x` and drawing relations between those files.
+
+### overview
+
+If you want to spin up an `md/x` powered `nextjs` site, you nearly always are going to write some boilerplate. Either you're using [`next-mdx`](https://github.com/vercel/next.js/tree/canary/packages/next-mdx) and letting webpack sort things out, or, more likely, you're using some kind of `mdx` parser like [`next-mdx-remote`](https://github.com/hashicorp/next-mdx-remote/) or [`mdx-bundler`](https://github.com/kentcdodds/mdx-bundler). In whatever case, you need to write functions for `getStaticProps` and `getStaticPaths` to generate paths and props for each page.
+
+`next-mdx-remote` provides a really simple API that takes care of writing that boilerplate for you. Additionally, it allows for granular processing of `md/x` files and generating both extra metadata as well as relational data among static files in a collection.
+
+### getting started
+
+Install peer dependencies and package.[^1]
+
+[^1]: I chose to keep these as peer dependencies in case you need functionality that `next-mdx-relations` doesn't offer. In that case, you have the raw material to glob, get the frontmatter, and serialize your markdown the way you like.
+
+``` bash
+yarn add fast-glob matter next-mdx-remote next-mdx-relations
+```
+
+Create a config file that imports `createUtils` from `next-mdx-relations` and both returns and exports functions for getting paths, pages, and pageProps.
+
+``` js
+// next-mdx-relations.config.js
+
+import { createUtils } from 'next-mdx-relations';
+
+export const {
+  getPaths, // for `getStaticPaths`
+  getPages, // for index page / `garden.js`
+  getPageProps, // for `getStaticProps`
+  getPathsByProp // for `[tag].js`
+} = createUtils({
+  content: '/content',
+});
+```
+
+You get the following async helper functions
+
+- `getPaths()`: use with `getStaticPaths` to get a list of file system based paths to your content
+- `getPages()`: use in on your homepage to get a list of all your pages with accompanying frontmatter
+- `getPageProps()`: use with `getStaticProps` to get your content and serialized frontmatter to pass to `next-mdx-remote`
+- `getPathsByProp()`: use to make a tag page -- it returns a list of values of a given property from all of your content
+
+If this pattern looks familiar, it's because it's heavily indebted to [stitches](https://stitches.dev/). I liked the idea of having the config file also be the place all of the package functionality is exported from. Additionally, this pattern allows you to have multiple instances of the package with their own scoped configurations. So if you have, like I did at one point, a blog and a garden, and those content types need to be handled differently, you can spin up two different configuration files (or put the `createUtils` function elsewhere) to handle either the blog or the garden.
+
+Finally, create a `[...slug].js` file.
+
+```js
+// [...slug].js
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { MDXRemote } from 'next-mdx-remote';
+import { getPaths, getPageProps } from '../next-mdx-relations.config.js';
+
+function Slug({ mdx, ...pageNode }) {
+  const { frontmatter: { title, excerpt } } = pageNode;
+  return (
+    <article>
+      <h1>{title}</h1>
+      <p>{excerpt}</p>
+      <MDXRemote {...mdx} />
+    </article>
+  );
+}
+
+export async function getStaticProps({ params: { slug } }) {
+  const props = await getPageProps(slug);
+  return {
+    props
+  };
+}
+
+export async function getStaticPaths() {
+  const paths = await getPaths();
+  return {
+    paths,
+    fallback: false
+  };
+}
+
+export default Slug;
+```
+
+I've opted to use this catchall routing because it's the most generic way to handle routing. If you need something more granular, you can always make scoped catchall routes (ex. `/garden/[...slug].js`).
+
+### meta and relational data
+
+Relational data - the way things fit together, interact with each other, and (over)determine the meaning and value of other bits of data - seems to be the most important part of digital gardening. `next-mdx-relations` makes generating meta and relational data a first class feature by exposing two points of intervention when content is being processed.
+
+``` js
+const { getPageProps } = createUtils({
+  content: '/content',
+  // page level
+  metaGenerators: {
+    mentions: node => markdownLinkExtractor(node.content).filter(l => l[0] === '/')
+  },
+  // collection level
+  relationGenerators: {
+    mentionedIn: nodes => nodes.map((node) => ({
+      ...node,
+      meta: {
+        ...node.meta,
+        mentionedIn: nodes.filter(
+          n => n.meta?.mentions.includes(`/${node.params.slug.join('/')}`))
+      }
+    }))
+  }
+})
+```
+
+In the above example, we use `metaGenerators` and `relationGenerators` to add extra meta and relational data to each page. `metaGenerators` work at the page or node level -- key value pairs have access to each `md/x` file in isolation. I'm using a package to return an array of links that point to local content. The return value is added to a node's `meta` object. `relationalGenerators` work at the collection level -- key value pairs have access to nodes after the `metaGenerators` have run. Unlike `metaGenerators` you can stash whatever the return value is anywhere on the nodes. Here, we see if any other node 'mentions' the current node, and add those nodes to the current's `meta` object. The result is a basic version of bi-directional links.
+
+The above example is pretty straight forward, but achieves something slightly more difficult when working with static files alone. Additionally, `metaGenerators` can be used to generate data or mutate content outside of the markdown serialization.
+
+### to follow
+
+This is early days for the api. I'm still working out ways to keep things on the rails and not mutate data that shouldn't be, but I'm excited about what this has enabled me to build and what it might help others build, too.
+
+Check it out on [github](https://github.com/inadeqtfuturs/next-mdx-relations).

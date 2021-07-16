@@ -1,0 +1,53 @@
+---
+title: site refresh
+author: alex christie
+date: '2021-07-04T14:55:52-06:00'
+type: garden
+tags: [nextjs, stitches, next-mdx-relations]
+excerpt: an overview of the recent site refresh, which includes nextjs, stitches, and next-mdx-relations
+draft: false
+---
+
+A lot has changed since I last worked actively on my blog/site. The previous iteration, which I released early in 2019, was built on technology I really liked at the time: [gatsby](https://www.gatsbyjs.com/) and [emotion](https://emotion.sh/docs/introduction). As time went on, really simple things became more and more difficult to do -- gatsby's data layer would break; plugins would need to be upgraded but would break the build process; the idiosyncratic theme I built in emotion became cumbersome and prevented me from actually making updates. In the interim, I had worked a lot with [nextjs](https://nextjs.org/) and really enjoyed the simplified data fetching I could do with `getStaticProps`. Having worked with `nextjs` to build [digital-garden.dev](https://digital-garden.dev), I decided to migrate *inadequate futures* over as well.
+
+### overview
+
+The major impetus for this update was to better showcase the work and writing I had been doing. The previous version of *if* was purposefully minimalist but that minimalism said less about what I was interested in working on and more about my design aesthetics. The homepage, just my name, job title, and a brief missive about what I do ('build elegant, responsive, and speedy software...') felt like an under- if not misrepresentation of my work and what I actually do. Additionally, many of the choices I made in the UX and design of the site ran against the grain of what I've learned to build and like. The work section, for example, was built out using a carousel, a design pattern I loathe both in terms of user experience and building, and showcased work that I haven't touched in years. In terms of writing, I had bifurcated my 'blog' from the 'garden', a demarcation that doesn't quite make sense to me from this vantage. Finally, the 'about' page was kept purposefully vague - something I thought I would update later but never did.
+
+With this in mind, I wanted to make a few basic improvements:
+
+1. a home page that more accurately describes/demonstrates my current interests and work
+2. a single 'garden' section that can house all my writing. A list of posts is enough
+3. a 'work' page that lists recent work and that is not a carousel
+4. an about page that more accurately reflects my past/previous work and the role I see myself in going forward
+
+With these things in mind, and with a basic design I made in figma in hand,[^1] I set off to do the heavy engineer lifting.
+
+### gatsby → nextjs
+
+I moved over to `nextjs` for a few reasons. First, it's what I've reached for both professionally and to build side projects for the last two years. The API feels very minimal and lightweight, it's fairly agnostic about how you load assets, and the build process is extremely fast. Second, I really like next's routing for generating static sites. I have a `[...slug].js` catch-all route for blog pages that exports a `getStaticPaths` and `getStaticProps` function. `getStaticPaths` returns an array of paths based on a folder with markdown files in it, and `getStaticProps` processes the markdown to render to the page. I can use the same `getStaticProps` functionality to get specific markdown files to generate specific pages, like the index or about page.
+
+In broad stokes, I think `nextjs` provides one of the quickest ways to get a site built with React up and running.
+
+### emotion → stitches
+
+I've worked with both emotion and styled-components in the past, and I've built a theme generator and component library called [if-sf](https://github.com/inadeqtfuturs/if-sf), which is built on styled-components and [theme-ui](https://theme-ui.com/). While I really enjoy working with these technologies, I wanted to take the opportunity to try out some of the new styling systems that have emerged over the last two years. Having worked with [tailwind](https://tailwindcss.com/) on my [spotify dashboard](https://github.com/inadeqtfuturs/spotify-dashboard), I decided to try out [stitches](https://stitches.dev/) because it seemed lightweight, performant, and minimalist.
+
+In addition to the `stitches.config.js` at the root of the project, which handles the theme object, I also wrote a `globalStyles.js` to define styles at the element level. Using `stitches`'s `global` function, it's easy enough to import these styles into my `_app.js`. While this works, I did miss how `theme-ui` took care of my mdx styles for me, and I hope this global element styling is something `stitches` can integrate into their existing api.
+
+### next-mdx-relations
+
+Having worked with `md/x` powered `nextjs` sites in the past, I had grown tired of writing boilerplate for getting file globs, parsing the markdown, and generating file paths to work with the catch-all `[...slug].js`. One of the goals in building [digital-garden.dev](https://digital-garden.dev) was to re-think the statically generated site in slightly more relational terms. Without a database, what and where is the best way and place to draw relations between these static files?
+
+I wrote `next-mdx-relations` to try to answer this question. build on top of `next-mdx-remote`, another solution for parsing markdown for `nextjs` sites, `next-mdx-relations` provides two key things:
+
+1. A set of utilities for generating paths and parsing markdown. No more boilerplate -- just give it the folder your content lives in and it handles the rest
+2. An API that allows users to intervene at crucial points in the processing. Users can add extra metadata without writing to the markdown file, and has access to ALL files to generate relations between them
+
+It's early days for `next-mdx-relations` -- I'm actively dogfooding it on this site -- but I'm already thinking that it's where I'll be working through some [questions I've asked](/garden/03-rethinking-digital-gardening) about digital gardening. I'd like for it to eventually power [digital-garden.dev](https://digital-garden.dev). In the mean time, you can check out the [github repo](https://github.com/inadeqtfuturs/next-mdx-relations).
+
+### garden
+
+I'm hoping this refresh returns me to the garden. I have some ideas for extending `next-mdx-relations` that would be useful for other digital gardens and I'm looking forward to working those things out.
+
+[^1]: There is a longer and more interesting version of this post that talks through some of the design decisions, but I'm not a designer. Maybe for another time.

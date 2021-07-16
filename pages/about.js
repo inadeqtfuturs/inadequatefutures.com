@@ -39,6 +39,7 @@ export function About({ mdx }) {
             layout="fill"
             objectFit="contain"
             objectPosition="top"
+            alt="if"
           />
         </ImageWrapper>
         <ContentWrapper>

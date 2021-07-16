@@ -1,14 +1,14 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
-import NextDocument from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { getCssString } from '@stitches';
 
 const FONT_INTER = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap';
 
-export default class Document extends NextDocument {
+export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     try {
-      const initialProps = await NextDocument.getInitialProps(ctx);
+      const initialProps = await Document.getInitialProps(ctx);
 
       return {
         ...initialProps,
@@ -27,5 +27,17 @@ export default class Document extends NextDocument {
       };
     // eslint-disable-next-line no-empty
     } finally {}
+  }
+
+  render() {
+    return (
+      <Html lang="en">
+        <Head />
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }

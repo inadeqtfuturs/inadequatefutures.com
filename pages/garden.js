@@ -16,7 +16,7 @@ const PostsWrapper = styled('div', {
 function Garden({ posts }) {
   return (
     <>
-      <SEO title="garden" description="if -- digital garden" />
+      <SEO title="garden" description="if - digital garden" />
       <h1>garden</h1>
       <PostsWrapper>
         {posts.map(post =>

@@ -60,7 +60,7 @@ function Header() {
   return (
     <HeaderWrapper>
       <Link href="/" passHref>
-        <Brand />
+        <Brand aria-label="home" />
       </Link>
       <Nav>
         {menuItems.map(({ href, label }) => (

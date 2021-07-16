@@ -9,7 +9,7 @@ const StyledPre = styled('pre', {
   $$syntax2: '$colors$turquoise',
   $$syntax3: '$colors$pink',
   $$syntax4: '$colors$pink',
-  $$comment: '$colors$gray',
+  $$comment: '$colors$gray300',
   $$removed: '$colors$red',
   $$added: '$colors$turquoise',
 

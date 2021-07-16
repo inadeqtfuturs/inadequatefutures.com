@@ -15,6 +15,7 @@ export default function SEO({
 
       <link rel="icon" href={favicon} />
 
+      <meta name="description" content={description} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
@@ -37,7 +38,7 @@ SEO.propTypes = {
 
 SEO.defaultProps = {
   title: 'home',
-  description: 'site',
+  description: 'if - making stuff online',
   twitter: 'inadeqt_futurs',
   ogImage: '/images/profile.jpg',
   favicon: '/favicon.ico'

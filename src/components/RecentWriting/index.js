@@ -98,7 +98,7 @@ function RecentWriting({ posts }) {
         }) => (
           <React.Fragment key={rawDate}>
             <Date>{date}</Date>
-            <Link href={slug.join('/')} passHref>
+            <Link href={`/${slug.join('/')}`} passHref>
               <PostName>{title}</PostName>
             </Link>
             <Excerpt>{excerpt}</Excerpt>

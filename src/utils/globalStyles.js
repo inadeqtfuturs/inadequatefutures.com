@@ -36,13 +36,13 @@ const globalStyles = global({
   span: { ...defaultTextBase },
   a: { 
     ...defaultTextBase,
-    color: '$gray600',
-    textDecorationColor: '$gray300',
+    color: '$gray700',
+    textDecorationColor: '$gray600',
     textDecorationLine: 'underline',
     textUnderlineOffset: '3px',
     '&:hover, &:focus': {
       color: '$text',
-      textDecorationColor: '$gray600',
+      textDecorationColor: '$gray700',
     }
   },
   // footnotes

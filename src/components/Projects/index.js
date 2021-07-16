@@ -42,8 +42,9 @@ const Gradient = styled('div', {
     }
   }
 });
-const Title = styled('h3', {
-  margin: '$3 0'
+const Title = styled('h2', {
+  margin: '$3 0',
+  fontSize: '$xl'
 });
 const LinkWrapper = styled('div', {
   margin: 'auto 0 0'
@@ -90,7 +91,7 @@ function Projects({ projects }) {
       }) => (
         <ProjectWrapper key={title}>
           <ImageWrapper>
-            {images && <Image src={images[0]} layout="fill" objectFit="contain" />}
+            {images && <Image src={images[0]} layout="fill" objectFit="contain" alt={title} />}
             {gradient && <Gradient gradient={gradient} />}
           </ImageWrapper>
           <Title>{title}</Title>

@@ -46,7 +46,7 @@ const Topics = styled('span', {
   fontSize: '$2xs',
   margin: 0
 });
-const ProjectName = styled('h5', {
+const ProjectName = styled('h4', {
   fontSize: '$lg',
   fontWeight: 'normal'
 });

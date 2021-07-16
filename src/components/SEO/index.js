@@ -18,12 +18,12 @@ export default function SEO({
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={`${process.env.URL}/${ogImage}`} />
       <meta property="og:image:width" content="700" />
       <meta property="og:image:height" content="700" />
       <meta name="twitter:site" content={twitter} />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image" content={`${process.env.URL}/${ogImage}`} />
     </Head>
   );
 }
@@ -40,6 +40,6 @@ SEO.defaultProps = {
   title: 'home',
   description: 'if - making stuff online',
   twitter: 'inadeqt_futurs',
-  ogImage: '/images/profile.jpg',
+  ogImage: 'images/profile.jpg',
   favicon: '/favicon.ico'
 };

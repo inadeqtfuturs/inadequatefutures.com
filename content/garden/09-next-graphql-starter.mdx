@@ -1,0 +1,24 @@
+---
+title: nextjs, graphql, sequelize starter
+author: alex christie
+date: '2021-09-18T14:55:52-06:00'
+type: garden
+tags: ['nextjs', 'graphql', 'api-routes', 'sequelize']
+excerpt: a minimal nextjs starter with graphql api routes backed by sequelize
+draft: false
+---
+
+I recently started working on a new project and wanted to use NextJS across the stack. I thought it would be pretty straight forward to set up graphql api routes, but it ended up taking much longer to spin the project up than anticipated. I ended up abstracting the project architecture into a starter repo, which can be found [here](https://github.com/inadeqtfuturs/nextjs-sequelize-graphql-starter).
+
+A brief overview:
+
+- This is a full stack NextJS project that uses GraphQL api routes to interface with sequelize and a postgres database.
+- The repo is diveded up into three sections: `database` for sequelize, `graphql` for the GraphQL schema and resolvers, and `src` for the frontend.
+- Creating a new model is basically 2 steps: generate/define the model in sequelize, and then write the schema/resolvers in GraphQL.
+- Because I was working on this while traveling (i.e. without internet access), it uses a project scope installed `sequelize-cli` and GraphQL Playground
+- It frequently used sequelize commands aliased to `yarn`.
+- The project can be deployed to Vercel or Netlify and hooked up to a Heroku hosted postgres (or whatever you prefer) database
+
+The starter repo also comes with an example migration, model, and seed, as well as an example GraphQL schema and resolver with full CRUD operations.
+
+If you're looking to quickly spin up a full stack NextJS project without configuring everything from scratch, this might be for you.

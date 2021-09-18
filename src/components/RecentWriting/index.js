@@ -26,9 +26,12 @@ const Title = styled('h3', {
   }
 });
 const SeeMore = styled('a', {
-  color: '$text',
+  color: '$gray700',
   margin: 0,
-  fontSize: '$sm'
+  fontSize: '$sm',
+  '&:hover,&:active': {
+    color: '$text'
+  }
 });
 
 const PostsWrapper = styled('div', {

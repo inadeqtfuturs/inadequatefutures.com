@@ -40,6 +40,6 @@ SEO.defaultProps = {
   title: 'home',
   description: 'if - making stuff online',
   twitter: 'inadeqt_futurs',
-  ogImage: 'images/profile.jpg',
-  favicon: '/favicon.ico'
+  ogImage: '/images/profile.jpg',
+  favicon: '/images/favicon.ico'
 };

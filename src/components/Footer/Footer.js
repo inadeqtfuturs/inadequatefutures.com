@@ -55,7 +55,7 @@ const GardenLink = styled('a', {
 const menuItems = [
   { href: 'https://github.com/inadeqtfuturs', label: 'github' },
   { href: 'https://twitter.com/speculative_dev', label: 'twitter' },
-  { href: 'https://www.polywork.com/alex_christie', label: 'polywork' }
+  { href: 'https://www.polywork.com/inadeqt_futurs', label: 'polywork' }
 ];
 
 function Footer() {

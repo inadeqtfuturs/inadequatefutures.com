@@ -9,4 +9,4 @@ currently, i'm a senior software engineer building web sites, custom CMSs, and s
 
 on the side, i work on and think about design systems, component libraries, and digital gardening. some projects i'm excited about include [if-sf](https://github.com/inadeqtfuturs/if-sf), a theme generator and component library, an mdx library for next.js called [next-mdx-relations](https://github.com/inadeqtfuturs/next-mdx-relations) (which i'm dogfooding on this site), and [digital-garden.dev](https://digital-garden.dev).
 
-you can find me on [github](https://github.com/inadeqtfuturs), [twitter](https://twitter.com/speculative_dev), and [polywork](https://www.polywork.com/alex_christie).
+you can find me on [github](https://github.com/inadeqtfuturs), [twitter](https://twitter.com/speculative_dev), and [polywork](https://www.polywork.com/inadeqt_futurs).

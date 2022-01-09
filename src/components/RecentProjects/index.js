@@ -9,11 +9,13 @@ const Section = styled('section', {
     margin: '$10 0'
   }
 });
+
 const Header = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'baseline'
 });
+
 const Title = styled('h3', {
   margin: '0 0 $4',
   '&:after': {
@@ -25,6 +27,7 @@ const Title = styled('h3', {
     marginTop: '$4'
   }
 });
+
 const SeeMore = styled('a', {
   color: '$gray700',
   margin: 0,
@@ -41,25 +44,32 @@ const ProjectsWrapper = styled('div', {
     gridTemplateColumns: 'repeat(3, 1fr)'
   },
 });
+
 const ProjectWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column'
 });
+
 const Topics = styled('span', {
   fontSize: '$2xs',
   margin: 0
 });
+
 const ProjectName = styled('h4', {
   fontSize: '$lg',
   fontWeight: 'normal'
 });
+
 const Description = styled('p', {
   fontSize: '$xs',
   margin: '0 0 $3'
 });
+
 const LinkWrapper = styled('div', {
   margin: 'auto 0 0'
 });
+
+
 const GithubLink = styled('a', {
   fontSize: '$xs',
   color: '$text',
@@ -90,7 +100,7 @@ function RecentProjects({ repositories }) {
           svn_url: svnUrl
         }) => (
           <ProjectWrapper key={id}>
-            {topics && <Topics>{topics.slice(0,2).join(' / ')}</Topics>}
+            {topics && <Topics>{topics.slice(0, 2).join(' / ')}</Topics>}
             <ProjectName>{name}</ProjectName>
             <Description>{description}</Description>
             <LinkWrapper>

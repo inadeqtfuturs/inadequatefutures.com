@@ -9,11 +9,13 @@ const Section = styled('section', {
     margin: '$10 0'
   }
 });
+
 const Header = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'baseline'
 });
+
 const Title = styled('h3', {
   margin: '0 0 $4',
   '&:after': {
@@ -25,6 +27,7 @@ const Title = styled('h3', {
     marginTop: '$4'
   }
 });
+
 const SeeMore = styled('a', {
   color: '$gray700',
   margin: 0,
@@ -45,6 +48,7 @@ const PostsWrapper = styled('div', {
     gridTemplateRows: 'repeat(4, min-content)'
   }
 });
+
 const Date = styled('span', {
   fontSize: '$2xs',
   textTransform: 'uppercase',
@@ -59,21 +63,25 @@ const Date = styled('span', {
     }
   }
 });
+
 const PostName = styled('a', {
   fontSize: '$lg',
   fontWeight: 'normal',
   color: '$text',
   textDecoration: 'none'
 });
+
 const Excerpt = styled('p', {
   fontSize: '$xs',
   margin: '0 0 $3'
 });
+
 const TagWrapper = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
   gap: '$2'
 });
+
 const Tag = styled('span', {
   borderRadius: '$sm',
   padding: '$0half $2',

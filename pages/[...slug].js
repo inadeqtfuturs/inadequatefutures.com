@@ -29,7 +29,7 @@ export async function getStaticProps({ params: { slug } }) {
 
 export async function getStaticPaths() {
   const paths = await getPaths();
-  
+
   return {
     paths,
     fallback: false

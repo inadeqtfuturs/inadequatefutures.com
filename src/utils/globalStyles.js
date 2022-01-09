@@ -43,6 +43,7 @@ const globalStyles = global({
     '&:hover, &:focus': {
       color: '$text',
       textDecorationColor: '$gray700',
+      // background: '$green300'
     }
   },
   // footnotes

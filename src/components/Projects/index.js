@@ -11,10 +11,12 @@ const ProjectsWrapper = styled('section', {
     gridTemplateColumns: 'repeat(2, 1fr)'
   }
 });
+
 const ProjectWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column'
 });
+
 const ImageWrapper = styled('div', {
   position: 'relative',
   width: '100%',
@@ -24,6 +26,7 @@ const ImageWrapper = styled('div', {
   borderRadius: '$md',
   overflow: 'hidden'
 });
+
 const Gradient = styled('div', {
   display: 'block',
   position: 'absolute',
@@ -42,13 +45,16 @@ const Gradient = styled('div', {
     }
   }
 });
+
 const Title = styled('h2', {
   margin: '$3 0',
   fontSize: '$xl'
 });
+
 const LinkWrapper = styled('div', {
   margin: 'auto 0 0'
 });
+
 const GithubLink = styled('a', {
   fontSize: '$xs',
   color: '$text',
@@ -59,12 +65,14 @@ const GithubLink = styled('a', {
     textDecoration: 'underline'
   }
 });
+
 const TagWrapper = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
   gap: '$2',
   margin: '0 0 $2'
 });
+
 const Tag = styled('span', {
   borderRadius: '$sm',
   padding: '$0half $2',

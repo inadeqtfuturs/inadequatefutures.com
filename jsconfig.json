@@ -2,14 +2,30 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@components": ["src/components"],
-      "@components/*": ["src/components/*"],
-      "@hooks": ["src/hooks"],
-      "@hooks/*": ["src/hooks/*"],
-      "@lib/*": ["src/lib/*"],
-      "@mdx": ["src/utils/mdx/next-mdx-relations.config.js"],
-      "@stitches": ["stitches.config.js"],
-      "@utils/*": ["src/utils/*"]
+      "@components": [
+        "src/components"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@hooks": [
+        "src/hooks"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ],
+      "@mdx": [
+        "src/utils/mdx/next-mdx-relations.config.js"
+      ],
+      "@stitches": [
+        "stitches.config.js"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ]
     }
   }
 }

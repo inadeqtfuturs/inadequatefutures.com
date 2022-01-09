@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@stitches';
 import Header from '@components/Header';
-import Footer from '../Footer/Footer';
+import Footer from '@components/Footer';
 
 const LayoutWrapper = styled('div', {
   display: 'grid',

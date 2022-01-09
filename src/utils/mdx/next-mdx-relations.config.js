@@ -39,7 +39,7 @@ export const {
         .sort((a, b) => a?.meta?.rawDate - b?.meta?.rawDate)
         .map((node, index, array) => {
           const prev = index > 0 ? array[index - 1] : null;
-          const next = index < array.length -1 ? array[index + 1] : null;
+          const next = index < array.length - 1 ? array[index + 1] : null;
           return {
             ...node,
             frontmatter: {

@@ -18,7 +18,7 @@ module.exports = {
     'jsx-a11y/href-no-hash': ['off'],
     'react/jsx-filename-extension': ['warn', { 'extensions': ['.js', '.jsx'] }],
     'react/jsx-props-no-spreading': ['off'],
-    'react/no-unescaped-entities': ['error', {'forbid': ['>', '}']}],
+    'react/no-unescaped-entities': ['error', { 'forbid': ['>', '}'] }],
     'react/forbid-prop-types': ['off'],
     'import/prefer-default-export': ['off'],
     'indent': ['error', 2],

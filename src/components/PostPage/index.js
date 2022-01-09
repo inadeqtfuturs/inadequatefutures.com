@@ -9,11 +9,17 @@ const PostHeader = styled('div', {
   borderBottom: '1px solid $text'
 });
 
+const PostWrapper = styled('div', {
+  'a:hover, a:focus': {
+    background: '$green300'
+  }
+});
+
 function Post({ content, node }) {
   const { frontmatter: { title, excerpt }, meta: { date } } = node;
 
   return (
-    <div>
+    <PostWrapper>
       <PostHeader>
         <h2>{title}</h2>
         <p>{date}</p>
@@ -23,7 +29,7 @@ function Post({ content, node }) {
         {...content}
         components={MDXComponents}
       />
-    </div>
+    </PostWrapper>
   );
 }
 

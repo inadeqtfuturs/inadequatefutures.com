@@ -1,8 +1,7 @@
 async function getGithubRepoInfo(user, selectRepositories = []) {
   if (!user) return null;
 
-  const repositories = await 
-  fetch(
+  const repositories = await fetch(
     `https://api.github.com/users/${user}/repos`,
     {
       headers: {
@@ -21,7 +20,7 @@ async function getGithubRepoInfo(user, selectRepositories = []) {
     .catch(error => {
       throw new Error(error);
     });
-  
+
   if (!repositories || repositories.length === 0) return null;
 
   const repositoryInfo = await Promise.all(

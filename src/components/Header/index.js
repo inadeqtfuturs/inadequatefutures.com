@@ -1,19 +1,20 @@
 import React from 'react';
-import { styled } from '@stitches';
+import { styled, darkTheme } from '@stitches';
 import Link from 'next/link';
 
+
 const Brand = styled('a', {
-  width: '48px',
-  height: '48px',
+  height: '$brand',
+  aspectRatio: '1 / 1',
   margin: 0,
-  borderRadius: '100px',
-  border: '2px solid $text',
+  borderRadius: '$xl',
+  border: '$brand-border',
   background: 'url("https://source.boringavatars.com/marble/120/?colors=b7e2d8,b7e2d8,fdfdfd") center',
   overflow: 'hidden',
   '&::after': {
     content: '',
-    width: '48px',
-    height: '48px',
+    width: '$brand',
+    height: '$brand',
     display: 'block',
     background: 'url("https://source.boringavatars.com/marble/120/?colors=fdfdfd,b7e2d8,fdfdfd") center',
     opacity: 0,
@@ -23,6 +24,11 @@ const Brand = styled('a', {
     '&::after': {
       opacity: 1
     }
+  },
+  [`.${darkTheme} &`]: {
+    borderTop: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none'
   }
 });
 
@@ -30,23 +36,43 @@ const HeaderWrapper = styled('header', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '$4 0 $2'
+  padding: '$header',
+  borderBottom: '$contentBorder',
 });
 
-const Nav = styled('nav', {});
+const Nav = styled('nav', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: '$gutter',
+  background: '$containerBackground',
+  alignItems: 'center',
+  height: '100%',
+  borderLeft: '$contentBorder'
+});
 
 const InnerLink = styled('a', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   textDecoration: 'none',
   padding: '$1 $2',
-  marginRight: '$2',
-  borderRadius: '8px',
+  textAlign: 'center',
+  borderRadius: '$md',
   color: '$text',
+  background: '$background',
   transition: 'background 0.3s',
-  '&:last-child': {
-    margin: 0
-  },
   '&:hover, &:focus': {
     background: 'rgba(0,0,0,0.05)'
+  },
+  [`.${darkTheme} &`]: {
+    margin: 0,
+    padding: '$4',
+    height: '100%',
+    transition: 'color 0.3s',
+    '&:hover, &:focus': {
+      color: '$gray',
+      background: '$background'
+    },
   }
 });
 

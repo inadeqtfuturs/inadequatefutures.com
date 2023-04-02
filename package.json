@@ -9,7 +9,7 @@
     "lint": "eslint --fix . && echo 'linted 💯'"
   },
   "dependencies": {
-    "@stitches/react": "^0.2.2",
+    "@stitches/react": "^1.2.6",
     "luxon": "^2.0.1",
     "next": "^11.0.1",
     "next-mdx-relations": "^0.0.8",

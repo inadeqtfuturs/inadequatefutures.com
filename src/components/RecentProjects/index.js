@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { styled } from '@stitches';
+import { styled, darkTheme } from '@stitches';
 
 const Section = styled('section', {
   margin: '$6 0',
   '@lg': {
     margin: '$10 0'
+  },
+  [`.${darkTheme} &`]: {
+    margin: 0
   }
 });
 
 const Header = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'baseline'
+  alignItems: 'baseline',
+  padding: '$zeroOne',
+  borderBottom: '$contentBorder'
 });
 
 const Title = styled('h3', {
@@ -25,7 +30,13 @@ const Title = styled('h3', {
     background: '$text',
     display: 'block',
     marginTop: '$4'
-  }
+  },
+  [`.${darkTheme} &`]: {
+    margin: 0,
+    '&:after': {
+      content: 'none'
+    }
+  },
 });
 
 const SeeMore = styled('a', {
@@ -43,11 +54,18 @@ const ProjectsWrapper = styled('div', {
   '@sm': {
     gridTemplateColumns: 'repeat(3, 1fr)'
   },
+  [`.${darkTheme} &`]: {
+    gap: '$gutter',
+    background: '$black',
+    borderBottom: '$contentBorder'
+  }
 });
 
 const ProjectWrapper = styled('div', {
   display: 'flex',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  padding: '$zeroOne',
+  background: '$background'
 });
 
 const Topics = styled('span', {

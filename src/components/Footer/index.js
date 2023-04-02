@@ -1,12 +1,18 @@
 import React from 'react';
-import { styled } from '@stitches';
+import { styled, darkTheme } from '@stitches';
 import Link from 'next/link';
 
 const FooterWrapper = styled('footer', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '$6 0'
+  padding: '$6 0',
+  [`.${darkTheme} &`]: {
+    '@sm': {
+      borderTop: '$contentBorder',
+    },
+    padding: 0
+  }
 });
 
 const Nav = styled('nav', {});
@@ -14,11 +20,18 @@ const NavList = styled('ul', {
   display: 'flex',
   gap: '$2',
   listStyle: 'none',
-  padding: 0
+  padding: 0,
+  background: '$containerBackground',
+  borderRight: '$contentBorder',
+  [`.${darkTheme} &`]: {
+    margin: 0,
+    gap: '$gutter'
+  }
 });
 const NavListItem = styled('li', {
   color: '$text',
   fontSize: '$sm',
+  background: '$background',
   '&::after': {
     content: '/',
     display: 'inline',
@@ -29,6 +42,12 @@ const NavListItem = styled('li', {
     margin: 0,
     '&::after': {
       content: ''
+    }
+  },
+  [`.${darkTheme} &`]: {
+    padding: '$4',
+    '&::after': {
+      content: 'none',
     }
   }
 });
@@ -45,10 +64,16 @@ const InnerLink = styled('a', {
 const GardenLink = styled('a', {
   textDecoration: 'none',
   padding: '$1 $2',
-  borderRadius: '8px',
+  borderRadius: '$md',
   transition: 'background 0.3s',
   '&:hover, &:focus': {
     background: 'rgba(0,0,0,0.05)'
+  },
+
+  [`.${darkTheme} &`]: {
+    margin: 0,
+    borderLeft: '$contentBorder',
+    padding: '$4'
   }
 });
 

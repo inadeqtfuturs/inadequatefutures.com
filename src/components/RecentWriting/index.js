@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { styled } from '@stitches';
+import { styled, darkTheme } from '@stitches';
 
 const Section = styled('section', {
   margin: '$6 0',
   '@lg': {
     margin: '$10 0'
+  },
+  [`.${darkTheme} &`]: {
+    margin: 0
   }
 });
 
 const Header = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'baseline'
+  alignItems: 'baseline',
+  padding: '$zeroOne',
+  borderBottom: '$contentBorder'
 });
 
 const Title = styled('h3', {
@@ -25,7 +30,13 @@ const Title = styled('h3', {
     background: '$text',
     display: 'block',
     marginTop: '$4'
-  }
+  },
+  [`.${darkTheme} &`]: {
+    margin: 0,
+    '&:after': {
+      content: 'none'
+    }
+  },
 });
 
 const SeeMore = styled('a', {
@@ -39,14 +50,23 @@ const SeeMore = styled('a', {
 
 const PostsWrapper = styled('div', {
   display: 'grid',
-  gridAutoFlow: 'column',
-  gridTemplateRows: 'repeat(8, min-content)',
-  gap: '0 $6',
+  gap: '$6',
   '@sm': {
-    gap: '0 $8',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gridTemplateRows: 'repeat(4, min-content)'
+    gridTemplateColumns: 'repeat(2, 1fr)'
+  },
+
+  [`.${darkTheme} &`]: {
+    gap: '$gutter',
+    background: '$black',
+    borderBottom: '$contentBorder'
   }
+});
+
+const PostWrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '$zeroOne',
+  background: '$background'
 });
 
 const Date = styled('span', {
@@ -79,7 +99,15 @@ const Excerpt = styled('p', {
 const TagWrapper = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '$2'
+  maxWidth: 'fit-content',
+  gap: '$2',
+  background: '$containerBackground',
+  [`.${darkTheme} &`]: {
+    margin: 'auto 0 -1rem -1rem',
+    gap: '$gutter',
+    borderTop: '$contentBorder',
+    borderRight: '$contentBorder'
+  }
 });
 
 const Tag = styled('span', {
@@ -89,7 +117,10 @@ const Tag = styled('span', {
   fontSize: '$2xs',
   background: 'rgba(0, 0, 0, 0.03)',
   whiteSpace: 'nowrap',
-  height: 'min-content'
+  height: 'min-content',
+  [`.${darkTheme} &`]: {
+    background: '$background'
+  }
 });
 
 function RecentWriting({ posts }) {
@@ -107,7 +138,7 @@ function RecentWriting({ posts }) {
           meta: { date, rawDate },
           params: { slug }
         }) => (
-          <React.Fragment key={rawDate}>
+          <PostWrapper key={rawDate}>
             <Date>{date}</Date>
             <Link href={`/${slug.join('/')}`} passHref>
               <PostName>{title}</PostName>
@@ -116,7 +147,7 @@ function RecentWriting({ posts }) {
             <TagWrapper>
               {tags.map(t => <Tag key={t}>{t}</Tag>)}
             </TagWrapper>
-          </React.Fragment>
+          </PostWrapper>
         ))}
       </PostsWrapper>
     </Section>

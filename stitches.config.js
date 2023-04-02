@@ -1,7 +1,7 @@
-import { createCss } from '@stitches/react';
+import { createStitches, createTheme } from '@stitches/react';
 
 // https://components.ai/theme/LZ23GsXttzH7Q3Y0OIHM
-export const { styled, getCssString, global } = createCss({
+export const { styled, getCssText, globalCss } = createStitches({
   theme: {
     colors: {
       gray900: '#000000',
@@ -115,7 +115,12 @@ export const { styled, getCssString, global } = createCss({
       yellow: '$gold500',
       pink: 'hsl(333.44,75.72%,66.08%)',
       turquoise: '$green500',
-      orange: '$orange300'
+      orange: '$orange300',
+
+      // tokens
+      contentBorder: 'none',
+      containerBackground: '$background',
+      'brand-border': '2px solid $text'
     },
     space: {
       0: '0',
@@ -135,7 +140,12 @@ export const { styled, getCssString, global } = createCss({
       10: '2.5rem',
       12: '3rem',
       14: '3.5rem',
-      16: '4rem'
+      16: '4rem',
+
+      header: '1rem 0 0.5rem',
+      main: '1.5rem 0 0',
+      zeroOne: 0,
+      gutter: '2px'
     },
     fontSizes: {
       '2xs': '0.625rem',
@@ -162,12 +172,42 @@ export const { styled, getCssString, global } = createCss({
       md: '8px',
       lg: '16px',
       xl: '9999px',
-      '2xl': '100%'
-    }
+      '2xl': '100%',
+    },
+    sizes: {
+      'template-columns': 'minmax(16px, 1fr) minmax(0, 780px) minmax(16px, 1fr)',
+      brand: '48px',
+    },
   },
   media: {
     sm: '(min-width: 640px)',
     md: '(min-width: 768px)',
     lg: '(min-width: 1024px)',
+    xl: '(min-width: 1441px)'
   }
+});
+
+export const darkTheme = createTheme({
+  // colors: {
+  //   text: '#F9FAFB',
+  //   background: '#111827'
+  // }
+  colors: {
+    contentBorder: '2px solid black',
+    containerBackground: '$black',
+  },
+  space: {
+    header: 0,
+    main: 0,
+    zeroOne: '1rem'
+  },
+  radii: {
+    sm: 0,
+    md: 0,
+    xl: 0
+  },
+  sizes: {
+    'template-columns': 'minmax(0px, 1fr) minmax(0, 1440px) minmax(0px, 1fr)',
+    brand: '100%'
+  },
 });

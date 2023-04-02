@@ -2,17 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MDXRemote } from 'next-mdx-remote';
 import { getPages, getPageProps } from '@mdx';
+import { styled, darkTheme } from '@stitches';
 import getGithubRepoInfo from '@lib/getGithubRepoInfo';
 
 import SEO from '@components/SEO';
 import RecentProjects from '@components/RecentProjects';
 import RecentWriting from '@components/RecentWriting';
 
+const Wrapper = styled('section', {
+  padding: '$zeroOne',
+  [`.${darkTheme} &`]: {
+    borderBottom: '$contentBorder'
+  }
+});
+
 export function Index({ mdx, repositories, posts }) {
   return (
     <>
       <SEO />
-      <MDXRemote {...mdx} />
+      <Wrapper>
+        <MDXRemote {...mdx} />
+      </Wrapper>
       {repositories && <RecentProjects repositories={repositories} />}
       {posts && <RecentWriting posts={posts} />}
     </>

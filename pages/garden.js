@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { styled } from '@stitches';
+import { styled, darkTheme } from '@stitches';
 import { getPages } from '@mdx';
 
 import PostExcerpt from '@components/PostExcerpt';
@@ -11,6 +11,11 @@ const PostsWrapper = styled('div', {
   display: 'grid',
   gap: '$8',
   margin: '$8 0',
+  background: '$containerBackground',
+  [`.${darkTheme} &`]: {
+    gap: '$gutter',
+    margin: 0
+  }
 });
 
 function Garden({ posts }) {

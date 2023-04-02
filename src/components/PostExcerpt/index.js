@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { styled } from '@stitches';
+import { styled, darkTheme } from '@stitches';
 
 const getSimplifiedSlug = (s) => s.replace(' ', '-');
 
 const PostWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  padding: '$zeroOne',
+  background: '$background'
 });
+
 const Date = styled('span', {
   fontSize: '$2xs',
   textTransform: 'uppercase',
   margin: 0
 });
+
 const PostName = styled('a', {
   fontSize: '$lg',
   fontWeight: 'normal',
@@ -24,15 +28,19 @@ const PostName = styled('a', {
     textDecoration: 'underline'
   }
 });
+
 const Excerpt = styled('p', {
   fontSize: '$xs',
   margin: '0 0 $3'
 });
+
 const TagWrapper = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '$2'
+  maxWidth: 'fit-content',
+  gap: '$2',
 });
+
 const Tag = styled('a', {
   borderRadius: '$sm',
   padding: '$0half $2',
@@ -40,7 +48,8 @@ const Tag = styled('a', {
   fontSize: '$2xs',
   background: 'rgba(0, 0, 0, 0.03)',
   whiteSpace: 'nowrap',
-  textDecoration: 'none'
+  textDecoration: 'none',
+  height: 'min-content',
 });
 
 function PostExcerpt({ post }) {

@@ -563,12 +563,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stitches/react@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "@stitches/react@npm:0.2.2"
+"@stitches/react@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "@stitches/react@npm:1.2.6"
   peerDependencies:
-    react: ">= 17.0.0"
-  checksum: 8077020cb9852d2cb5ee4fc40a485085e3163f7a8320f840d40ef6316d79442b3d6cdc643ba34f89bf0a22a6d4077fbbb587fe540709ecec1a696731e7b9a504
+    react: ">= 16.3.0"
+  checksum: 416088cdde17a22d6cdb04cf1cf756c6e5fc291dd7e41f82ce422bb95432ad32b6d990e7264d996d367c40bbc674d61be087e4e1f7b23eea7f81ef6266373a9c
   languageName: node
   linkType: hard
 
@@ -5267,7 +5267,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "site@workspace:."
   dependencies:
-    "@stitches/react": ^0.2.2
+    "@stitches/react": ^1.2.6
     eslint: ^7.30.0
     eslint-config-airbnb: ^18.2.1
     eslint-config-next: ^11.0.1

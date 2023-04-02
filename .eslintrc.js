@@ -44,6 +44,7 @@ module.exports = {
       alias: {
         map: [
           ['@components', './src/components'],
+          ['@context', './src/context'],
           ['@containers', './src/containers'],
           ['@hooks', './src/hooks'],
           ['@lib', './src/lib'],

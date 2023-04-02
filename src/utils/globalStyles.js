@@ -1,4 +1,4 @@
-import { global } from '@stitches';
+import { globalCss } from '@stitches';
 
 const defaultTextBase = {
   fontFamily: '$body',
@@ -17,7 +17,7 @@ const defaultHeadingBase = {
   marginBottom: '$3'
 };
 
-const globalStyles = global({
+const globalStyles = globalCss({
   '*': {
     boxSizing: 'border-box'
   },
@@ -34,7 +34,7 @@ const globalStyles = global({
   },
   p: { ...defaultTextBase },
   span: { ...defaultTextBase },
-  a: { 
+  a: {
     ...defaultTextBase,
     color: '$gray700',
     textDecorationColor: '$gray600',

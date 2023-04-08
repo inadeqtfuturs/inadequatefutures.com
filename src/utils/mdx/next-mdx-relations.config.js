@@ -6,9 +6,6 @@ import { createUtils } from 'next-mdx-relations';
 import markdownLinkExtractor from 'markdown-link-extractor';
 import rehypePrettyCode from 'rehype-pretty-code';
 
-// plugins
-/* import rehypeHighlightCode from './plugins/rehype-highlight-code'; */
-/* import rehypeMetaAttribute from './plugins/rehype-meta-attribute'; */
 import { options } from './plugins/rehype-pretty-options';
 
 function getNodeInfo(node) {
@@ -83,9 +80,7 @@ export const {
   },
   mdxOptions: {
     rehypePlugins: [
-      [rehypePrettyCode, options],
-      /* rehypeHighlightCode, */
-      /* rehypeMetaAttribute */
+      [rehypePrettyCode, options]
     ]
   }
 });

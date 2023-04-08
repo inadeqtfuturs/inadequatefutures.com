@@ -4,10 +4,9 @@ import { createUtils } from 'next-mdx-relations';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import markdownLinkExtractor from 'markdown-link-extractor';
+import rehypePrettyCode from 'rehype-pretty-code';
 
-// plugins
-import rehypeHighlightCode from './plugins/rehype-highlight-code';
-import rehypeMetaAttribute from './plugins/rehype-meta-attribute';
+import { options } from './plugins/rehype-pretty-options';
 
 function getNodeInfo(node) {
   if (node?.frontmatter?.type === 'code' || node?.frontmatter?.type === 'garden') {
@@ -81,8 +80,7 @@ export const {
   },
   mdxOptions: {
     rehypePlugins: [
-      rehypeHighlightCode,
-      rehypeMetaAttribute
+      [rehypePrettyCode, options]
     ]
   }
 });

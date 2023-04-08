@@ -2,6 +2,7 @@ const rangeParser = require('parse-numeric-range');
 const visit = require('unist-util-visit');
 const nodeToString = require('hast-util-to-string');
 const refractor = require('refractor');
+
 const highlightLine = require('./rehype-highlight-line');
 const highlightWord = require('./rehype-highlight-word');
 

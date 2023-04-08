@@ -58,7 +58,7 @@ Here, we're using a nested reducer -- for each array of tags in a post, we check
 
 Now that we have an array of tags, we pass them as our paths parameter to the return value.
 
-```js
+``` javascript
 export async function getStaticPaths() {
   const posts = await getAllPosts(directory);
   const blogTags = posts.reduce((acc, { frontMatter: { tags } }) => {

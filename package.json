@@ -24,7 +24,6 @@
     "shiki": "^0.14.1"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^4.33.0",
     "eslint": "^7.30.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-next": "^11.0.1",

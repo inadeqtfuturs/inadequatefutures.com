@@ -2,6 +2,3 @@
 publish = ".next"
 command = "yarn build"
 functions = ".netlify/functions"
-
-[[plugins]]
-package = "@netlify/plugin-nextjs"

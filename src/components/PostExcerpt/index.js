@@ -9,14 +9,12 @@ const PostWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
 });
-
 const Date = styled('span', {
   fontSize: '$2xs',
   textTransform: 'uppercase',
   margin: 0
 });
-
-const PostName = styled(Link, {
+const PostName = styled('a', {
   fontSize: '$lg',
   fontWeight: 'normal',
   marginBottom: '$2',
@@ -26,19 +24,16 @@ const PostName = styled(Link, {
     textDecoration: 'underline'
   }
 });
-
 const Excerpt = styled('p', {
   fontSize: '$xs',
   margin: '0 0 $3'
 });
-
 const TagWrapper = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
   gap: '$2'
 });
-
-const Tag = styled(Link, {
+const Tag = styled('a', {
   borderRadius: '$sm',
   padding: '$0half $2',
   margin: 0,
@@ -58,15 +53,15 @@ function PostExcerpt({ post }) {
   return (
     <PostWrapper>
       <Date>{date}</Date>
-      <PostName href={`/${slug.join('/')}`} passHref>
-        {title}
-      </PostName>
+      <Link href={`/${slug.join('/')}`} passHref>
+        <PostName>{title}</PostName>
+      </Link>
       <Excerpt>{excerpt}</Excerpt>
       <TagWrapper>
         {tags.map(t => (
-          <Tag href={`/tags/${getSimplifiedSlug(t)}`} passHref key={t}>
-            {t}
-          </Tag>
+          <Link href={`/tags/${getSimplifiedSlug(t)}`} passHref key={t}>
+            <Tag>{t}</Tag>
+          </Link>
         ))}
       </TagWrapper>
     </PostWrapper>

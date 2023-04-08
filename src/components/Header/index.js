@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from '@stitches';
 import Link from 'next/link';
 
-const Brand = styled(Link, {
+const Brand = styled('a', {
   width: '48px',
   height: '48px',
   margin: 0,
@@ -35,7 +35,7 @@ const HeaderWrapper = styled('header', {
 
 const Nav = styled('nav', {});
 
-const StyledLink = styled(Link, {
+const InnerLink = styled('a', {
   textDecoration: 'none',
   padding: '$1 $2',
   marginRight: '$2',
@@ -59,12 +59,14 @@ const menuItems = [
 function Header() {
   return (
     <HeaderWrapper>
-      <Brand href="/" passHref aria-label="home" />
+      <Link href="/" passHref>
+        <Brand aria-label="home" />
+      </Link>
       <Nav>
         {menuItems.map(({ href, label }) => (
-          <StyledLink href={href} passHref key={href}>
-            {label}
-          </StyledLink>
+          <Link href={href} passHref key={href}>
+            <InnerLink>{label}</InnerLink>
+          </Link>
         ))}
       </Nav>
     </HeaderWrapper>

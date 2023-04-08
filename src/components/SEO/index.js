@@ -9,11 +9,9 @@ export default function SEO({
   favicon,
   ogImage
 }) {
-  const seoTitle = `if | ${title}`;
-
   return (
     <Head>
-      <title>{seoTitle}</title>
+      <title>if | {title}</title>
 
       <link rel="icon" href={favicon} />
 

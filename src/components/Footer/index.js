@@ -33,7 +33,7 @@ const NavListItem = styled('li', {
   }
 });
 
-const StyledLink = styled(Link, {
+const InnerLink = styled('a', {
   textDecoration: 'none',
   transition: 'opacity 0.3s',
   opacity: '0.75',
@@ -65,9 +65,9 @@ function Footer() {
         <NavList>
           {menuItems.map(({ href, label }) => (
             <NavListItem key={href}>
-              <StyledLink href={href} passHref>
-                {label}
-              </StyledLink>
+              <Link href={href} passHref>
+                <InnerLink>{label}</InnerLink>
+              </Link>
             </NavListItem>
           ))}
         </NavList>

@@ -28,7 +28,7 @@ const Title = styled('h3', {
   }
 });
 
-const SeeMore = styled(Link, {
+const SeeMore = styled('a', {
   color: '$gray700',
   margin: 0,
   fontSize: '$sm',
@@ -86,9 +86,9 @@ function RecentProjects({ repositories }) {
     <Section>
       <Header>
         <Title>recent projects</Title>
-        <SeeMore href="/work" passHref>
-          see more
-        </SeeMore>
+        <Link href="/work" passHref>
+          <SeeMore>see more</SeeMore>
+        </Link>
       </Header>
       <ProjectsWrapper>
         {repositories.map(({

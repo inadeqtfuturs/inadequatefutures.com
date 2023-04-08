@@ -15,9 +15,7 @@ const AboutWrapper = styled('div', {
     justifyContent: 'space-between'
   }
 });
-
 const ContentWrapper = styled('div', {});
-
 const ImageWrapper = styled('div', {
   position: 'relative',
   flex: '1 0 auto',
@@ -30,22 +28,18 @@ const ImageWrapper = styled('div', {
   }
 });
 
-const StyledImage = styled(Image, {
-  objectFit: 'contain',
-  objectPostition: 'top'
-});
-
 export function About({ mdx }) {
   return (
     <>
       <SEO title="about" description="if -- about page" />
       <AboutWrapper>
         <ImageWrapper>
-          <StyledImage
+          <Image
             src="/images/profile.jpg"
+            layout="fill"
+            objectFit="contain"
+            objectPosition="top"
             alt="if"
-            fill
-            priority
           />
         </ImageWrapper>
         <ContentWrapper>

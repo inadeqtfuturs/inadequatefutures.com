@@ -1,5 +1,5 @@
 [build]
-  functions = "netlify/functions"
+  functions = "./netlify/functions"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

@@ -28,7 +28,7 @@ const Title = styled('h3', {
   }
 });
 
-const SeeMore = styled('a', {
+const SeeMore = styled(Link, {
   color: '$gray700',
   margin: 0,
   fontSize: '$sm',
@@ -64,7 +64,7 @@ const Date = styled('span', {
   }
 });
 
-const PostName = styled('a', {
+const PostName = styled(Link, {
   fontSize: '$lg',
   fontWeight: 'normal',
   color: '$text',
@@ -97,9 +97,9 @@ function RecentWriting({ posts }) {
     <Section>
       <Header>
         <Title>recent writing</Title>
-        <Link href="/garden" passHref>
-          <SeeMore>see more</SeeMore>
-        </Link>
+        <SeeMore href="/garden" passHref>
+          see more
+        </SeeMore>
       </Header>
       <PostsWrapper>
         {posts.map(({
@@ -109,9 +109,9 @@ function RecentWriting({ posts }) {
         }) => (
           <React.Fragment key={rawDate}>
             <Date>{date}</Date>
-            <Link href={`/${slug.join('/')}`} passHref>
-              <PostName>{title}</PostName>
-            </Link>
+            <PostName href={`/${slug.join('/')}`} passHref>
+              {title}
+            </PostName>
             <Excerpt>{excerpt}</Excerpt>
             <TagWrapper>
               {tags.map(t => <Tag key={t}>{t}</Tag>)}

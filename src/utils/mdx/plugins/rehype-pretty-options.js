@@ -1,4 +1,4 @@
-export const options = {
+const options = {
   // Use one of Shiki's packaged themes
   theme: 'nord',
   // Keep the background or use a custom background color?
@@ -22,3 +22,7 @@ export const options = {
     node.properties.className = ['word'];
   },
 };
+
+module.exports = {
+  options
+}

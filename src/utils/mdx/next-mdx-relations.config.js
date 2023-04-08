@@ -83,7 +83,7 @@ export const {
   },
   mdxOptions: {
     rehypePlugins: [
-      [rehypePrettyCode, options]
+      [rehypePrettyCode, options],
       /* rehypeHighlightCode, */
       /* rehypeMetaAttribute */
     ]

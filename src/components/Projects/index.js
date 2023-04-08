@@ -27,6 +27,10 @@ const ImageWrapper = styled('div', {
   overflow: 'hidden'
 });
 
+const StyledImage = styled(Image, {
+  objectFit: 'contain',
+});
+
 const Gradient = styled('div', {
   display: 'block',
   position: 'absolute',
@@ -99,7 +103,7 @@ function Projects({ projects }) {
       }) => (
         <ProjectWrapper key={title}>
           <ImageWrapper>
-            {images && <Image src={images[0]} layout="fill" objectFit="contain" alt={title} />}
+            {images && <StyledImage src={images[0]} alt={title} fill />}
             {gradient && <Gradient gradient={gradient} />}
           </ImageWrapper>
           <Title>{title}</Title>

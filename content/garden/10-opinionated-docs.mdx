@@ -1,0 +1,110 @@
+---
+title: 'opinionated guide to internal documentation'
+author: 'alex christie'
+date: '2023-04-02T11:06:07-06:00'
+type: 'garden'
+tags: ['documentation', 'internal docs']
+excerpt: 'Writing documentation is hard. Writing useful documentation is even harder'
+draft: false
+---
+
+Documentation takes many forms. Often we talk about documentation within our code, like inline comments describing or annotating a function or piece of code. We also talk about tests and specs as a kind of documentation, where tests provide a source of truth for a function's input and result. I see this kind of documentation as tied up in and with the codebase. It's there for the developer, but, more often than not, it's actually "there" for a language server protocol (inline comments) or a CI/CD pipeline (test suite) to ensure that the code is doing what it's supposed to do. This kind of documentation is extremely important and makes working in a codebase much easier, but it's not the only documentation we need.
+
+Documentation for human readers does and should take a different form because human readers are neither lsps or CI/CD pipelines. Sometimes we need to create documentation about how our codebase interacts with an external system or saas. Ideally there is infra-as-code, but often we just need a reminder of what buttons to click in a CMS somewhere. Other times, a codebase has unique internal procedures and systems that need to be described in order to be used. In each case, we need documentation that provides a conceptual as well as practical overview.
+
+The kind of documentation I'm thinking about is harder to write than documentation in and as code because it's not tied into a system of 1:1 input/output. It might seem obvious that two people reading the same document will not get the same thing out of it, but we also want to cultivate strategies, systems, and templates that make it likely that anyone with some amount of technical understanding (your peers) could read the documentation and understand it.
+
+However, in trying to outline some parameters for creating internal documentation for other developers on my current team, I found external resources lacking. Most writing about documentation emphasizes one of two things: how *code* should be documented (either within docs as code blocks or within the codebase itself with comments and spec) OR tools that teams can use to create documentation. In both cases, the emphasis misses the actual form documentation takes either by narrowly focusing on code or too broadly gesturing towards a metaframework to help with organization. The question I wanted to answer was, "What does the writing look like for internal documentation?"
+
+Articles about documentation often focus on writing opensource documentation. However, opensource docs are geared towards the user of a product, rather than someone that is actively working on the product. While some contribution guidelines model the kind of writing I was thinking about, not many have written publicly about creating documentation for an internal team.
+
+Additionally, the writing I did find about documentation tended to be vague on how to best to structure docs. This made some sense: the structure documentation takes depends largely on what you're documenting, the project you're working on, and even who and how many pepople are working on it. However, what I was finding was that different developers on my team were writing radically different kinds of documentation formally, grammatically, structurally, etc. What I wanted was something to guide their thinking so that we were all contributing the same *kind* of documentation.
+
+Inspired by the idea of an [opionated framework](https://opinionatedreact.com/)[^1], I've started writing an "opionated guide to internal documentation". This is geared at standardizing the way documenation is written within a team, the goal being the creation of documentation that likely communicates, explains, or otherwise transfers knowledge between team members.
+
+You can find it below or linked [here](https://gist.github.com/inadeqtfuturs/46466d91ce9ea048c87172631c5ed8c3).[^2]
+
+This is an in progress document and is meant to be opionated rather than authoritative.
+
+```markdown
+---
+title: opinionated documentation
+---
+
+# Opinionated Documentation
+
+This guide outlines some principles for writing internal documentation. The scope of this guide is narrow and is adapatable depending on the project and team size.
+
+## Consider the reader
+
+The reader is most often going to be another developer. Because of that, we can assume some level of familiarity with the code base, language/framework, or service we're writing documentation for. Consider some of the following when writing:
+
+- Opt for explicit instructions rather than implicit. I.e. tell the reader exactly what to code. Tell them what to click in the service you're writing about.
+- Provide copy and paste-able code blocks.
+- Explicitly reference files that need to be updated or that stand as an example of what is being documented.
+- Docs should be skimmable/scannable, so opt for descriptive headings and clear topic/introductory sentences.
+- File names and topics should be easy to find by looking at file names and/or `grep`ing the docs folder.
+
+## Write Consistently
+
+The documentation should be consistent with the rest of the documentation in the repo. That is, it should follow a similar format (see below) and voice of other pieces of documentation. Just as we have a consistent code style within the repo, we should have a consistent documentation style within the repo.
+
+In general, write with a neutral tone and/or the tone consistent with the documentation in the repo.
+
+## Instruction vs. Explanation
+
+Docs can take two (of many) shapes: instructive and explanatory. Instructive docs tell a dev what to do to implement a feature, like adding a new slice to redux. Explanatory docs explain why a codebase, process, file, or function is written or how it works. Docs are often a combination of the two, but it's usually best to separate instuctions from explanations.
+
+In the following example, we provide a few things:
+
+1. A brief overview of the feature/thing we're talking about
+2. Explicit step-by-step instructions for implementing/working with the thing
+3. An explanation of *why* we've opted to do it this way
+4. (Optional) A list of resources related to the thing if the reader is unfamiliar
+
+### Example
+
+/\```markdown
+# Topic
+
+## Subtopic
+
+Brief explanation of what subtopic is
+
+1. Instructions
+2. For implementing
+3. Subtopic
+
+Brief explanation of why we've decided to implement feature or whatever this way.
+
+## Resources
+
+- [Resource](link)
+- [Resource](link)
+- [Resource](link)
+/\```
+
+## Breaking Down a Topic
+
+Depending on what you're documenting or the size of the codebase, a flat list of markdown files might not be the best form for documentation. Consider the following:
+
+- Are you documenting something isolated and singular, or something that's part of a larger system? A folder might house multiple pieces of documentation about a system or a topic that has many discrete parts. An example might be a "State Management" folder with separate files for things like reducers, actions, hooks, and how the codebase tends to structure state.
+- When a single file gets too long (hundreds of lines), it might be time to rethink its structure and break it into multiple files. The headings in the original file are helpful for creating the new files.
+- Use relative links to link between documents.
+
+## Formatting
+
+- Use properly formatted markdown.
+- Provide a semantic and skimmable hierarchy of information by using headings.
+- Use lists for instructions. Numbered lists are good for sequences, whereas unordered lists are good for general tips/suggestions.  
+- Add a single white space between semantic elements in the markdown.
+
+## Resources
+
+- [Write the Docs - Documentation Principles](https://www.writethedocs.org/guide/writing/docs-principles/#arid)
+- [Write the Docs - Introduction to Markdown](https://www.writethedocs.org/guide/writing/markdown/)
+
+```
+
+[^1]: I see turning to an opionated framework as trusting someone else's expertise. It also decreases friction by decreasing the amount of decisions that *you* have to make in order to get a project up and running or write a piece of code. It's why we have styleguides, linting, and other guardrails when we code.
+[^2]: Note to create a little code block that just shows the live raw of the gist. For another day.

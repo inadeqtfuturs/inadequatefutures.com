@@ -34,7 +34,7 @@ export async function getStaticProps() {
   const props = await getPageProps(['pages', 'index']);
   const repositories = await getGithubRepoInfo(
     'inadeqtfuturs',
-    ['garden', 'if-sf', 'next-mdx-relations']
+    ['garden', 'next-mdx-relations', 'if-sf']
   );
   const posts = await getPages({ frontmatter: { draft: null, type: ['garden', 'code'] } });
   const recentPosts = posts.slice(0, 2);

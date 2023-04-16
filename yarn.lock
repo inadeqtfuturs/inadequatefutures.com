@@ -4215,6 +4215,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-seo@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "next-seo@npm:6.0.0"
+  peerDependencies:
+    next: ^8.1.1-canary.54 || >=9.0.0
+    react: ">=16.0.0"
+    react-dom: ">=16.0.0"
+  checksum: aa986b3731386bc91408df6bca09a9edc0cdd8a7730bcdc331f283ab50803a6d60047b685eeec4b11bde1660dbb792e3737e81ef05a65682323d0d07fa9edd85
+  languageName: node
+  linkType: hard
+
 "next-transpile-modules@npm:^8.0.0":
   version: 8.0.0
   resolution: "next-transpile-modules@npm:8.0.0"
@@ -5466,6 +5477,7 @@ __metadata:
     next: ^13.3.0
     next-mdx-relations: ^0.0.8
     next-mdx-remote: ^3.0.4
+    next-seo: ^6.0.0
     next-transpile-modules: ^8.0.0
     node-cache: ^5.1.2
     parse-numeric-range: ^1.2.0

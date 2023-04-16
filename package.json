@@ -14,6 +14,7 @@
     "next": "^13.3.0",
     "next-mdx-relations": "^0.0.8",
     "next-mdx-remote": "^3.0.4",
+    "next-seo": "^6.0.0",
     "next-transpile-modules": "^8.0.0",
     "node-cache": "^5.1.2",
     "parse-numeric-range": "^1.2.0",

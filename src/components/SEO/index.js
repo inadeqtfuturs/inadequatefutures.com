@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 
 export default function SEO({
   title,
@@ -12,21 +13,29 @@ export default function SEO({
   const seoTitle = `if | ${title}`;
 
   return (
-    <Head>
-      <title>{seoTitle}</title>
-
-      <link rel="icon" href={favicon} />
-
-      <meta name="description" content={description} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${process.env.NEXT_PUBLIC_URL}/${ogImage}`} />
-      <meta property="og:image:width" content="700" />
-      <meta property="og:image:height" content="700" />
-      <meta name="twitter:site" content={twitter} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_URL}/${ogImage}`} />
-    </Head>
+    <>
+      <Head>
+        <link rel="icon" href={favicon} />
+      </Head>
+      <NextSeo
+        title={seoTitle}
+        description={description}
+        openGraph={{
+          title: seoTitle,
+          description,
+          images: [{
+            url: `${process.env.NEXT_PUBLIC_URL}/${ogImage}`,
+            width: 700,
+            height: 700,
+            alt: 'if'
+          }]
+        }}
+        twitter={{
+          handle: `@${twitter}`,
+          cardType: 'summary_large_image'
+        }}
+      />
+    </>
   );
 }
 

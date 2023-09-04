@@ -1,0 +1,23 @@
+---
+title: 'garden monorepo'
+author: 'alex christie'
+date: '2023-06-26T11:06:07-06:00'
+type: 'garden'
+tags: ['documentation', 'internal docs', 'digital garden']
+excerpt: moving tooling into a centralized repo and rethinking architecture
+draft: true
+---
+
+In the past, I've worked on a few tools to solve issues I've had or streamline workflows for working on this blog:
+
+- [next-mdx-relations](https://github.com/inadeqtfuturs/next-mdx-relations): a utility for generating relations between static markdown files
+- [if-sf](https://github.com/inadeqtfuturs/if-sf): a theme token generator and component library -- something which became far more complicated than I had initially anticipated
+- [digital-garden.dev](https://digital-garden.dev): a boilerplate site to help people spin up digital gardens of their own
+
+Like many open source side projects, these were developed at various points in my own development career when I did and didn't have the expertise to actually support them. To take `if-sf` as one example: building out a component library is an enormous task in an exceedingly crowded space where many have already figured out optimized and opinionated solutions to many of the problems I was trying to work through. Was I really going to provide an alternative? Providing support to these projects has also been a task in and of itself. `digital-garden.dev`, for example, required both dependency bumps as well as architectural changes to handle the shifting `NextJS` landscape. Finally, because of the limited support I was providing to these libraries/tools, I felt like I had outgrown the approaches I had initially taken -- I don't think I would write `if-sf` the same way today as I had started many years ago.
+
+Recently, when I went to update `next-mdx-relations` to work with `NextJS`'s new `app` directory, I decided to rewrite much of the underlying logic and rethink the typescript bindings. This lead me down a rabbithole thinking about moving the tooling around `next-mdx-relations` into a monorepo with an explicit docs site, which, of course, tumbled into something larger,[^1] namely that the docs site would need typography, a token system, components, and the list just went on.
+
+I thought now would be as good a time as ever to centralize and develop some of these tools (for what they're worth) in public rather than working on them quietly alone. I've started working on what I'm just calling `garden`, which can be found in my [garden-monorepo](https://github.com/inadeqtfuturs/garden-monorepo). So far, the repo is just bootstrapped with a readme as I work on `embroidery`, a tiny utility made to generate typography for `css-in-js` libraries. You can find me writing about working on both `garden` and `embroidery` here as well as in the [`log` section of the repo]().
+
+[^1]: There's a question I'm starting to work through about tooling for tooling, and how and when we start to build that for ourselves. It's a question related to tinkering, but also might be something related to the iroic process of simplification through complication.

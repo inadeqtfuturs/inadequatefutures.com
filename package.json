@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "eslint --fix . && echo 'linted 💯'"
   },
@@ -15,6 +16,7 @@
     "next-mdx-relations": "^0.0.8",
     "next-mdx-remote": "^3.0.4",
     "next-seo": "^6.0.0",
+    "next-sitemap": "^4.2.3",
     "next-transpile-modules": "^8.0.0",
     "node-cache": "^5.1.2",
     "parse-numeric-range": "^1.2.0",

@@ -1,0 +1,195 @@
+---
+title: 'i18n routing with nextjs 13 app router'
+author: 'alex christie'
+date: '2023-10-09T11:06:07-06:00'
+type: 'garden'
+tags: ['documentation', 'nextjs', 'i18n', 'app router']
+excerpt: implementing internationalized routing in nextjs 13 using app router
+draft: false
+---
+
+Recently at [graveflex](https://graveflex.com), I created a learning platform for one of our clients. In addition to mutli-tenant authentication and authorization, the whole platform needed to be translatable. Having done a handful of i18n sites in the past using [NextJS's pages router](https://nextjs.org/docs/pages/building-your-application/routing/internationalization), I was surprised to find how minimal the [app router] documentation was, largely leaving the complexity of routing to external packages.
+
+Initially, I assumed that I could use one of these external packages to handle routing, but I ran into a few problems with each:
+
+- [next-intl](https://next-intl-docs.vercel.app/docs/getting-started/app-router-server-components): needed more control inside middleware and didn't want to opt into what seemed like a fairly complex boilerplate set up they provide for `Auth.js`.
+- [next-international](https://next-international.vercel.app/docs/app-setup): similar to `next-intl`, but we also didn't have the need to manage transations in the same way given our data structure and CMS.
+- [next-i18n-router](https://github.com/i18nexus/next-i18n-router/): same concern about middleware, though, of all the solutions NextJS links out to, this one seems the like the most streamlined.
+
+It seemed like it might just be easiest and that we could maintain the most control if we rolled out our own middleware. What we wanted was to define a set of potential locales (English and Spanish), and define one as the default locale. When the user was routing using the default locale, we didn't want the locale param to be displayed to the end user, however, the locale params *should* display when routing in any locale that is not the default.
+
+``` javascript
+`/` -> home
+`/es` -> home translated
+`/some-route` -> settings
+`/es/settings` -> settings translated
+```
+
+The process of setting up the routing required two things: first, we need to wrap all routes inside the `app` folder in `[lang]` (or any dynamic route), and then set up the middleware to handle rewrites and redirects. The middleware needed to do the following:
+
+1. check if there is a locale in the path
+2. if there's no locale, we assume it's the default locale. however, *rewrite* the path to include the default locale so we have access to it from `useParams()`
+3. if the locale is the default locale, redirect without the locale so the user doesn't see it in the url
+4. if the locale is not valid, redirect the path with the default locale
+5. otherwise, the locale is valid and the request should just pass through the middleware
+
+While the above is opinionated, it defines, in general, how all of packages listed above work. Additionally, writing the middleware alerted us to handful of problems we might have run into otherwise.
+
+## `app` set up
+
+Following the conventions of i18n packages and NextJS's docs, we started by wrapping the entire file structure in the `app` folder in `[lang]`.
+
+``` javascript
+└── app/[lang]/
+    ├── (public)
+    │   ├── layout.tsx
+    │   └── login/
+    │       ├── LoginPage.tsx
+    │       └── page.tsx
+    └── (user)
+        ├── layout.tsx
+        ├── not-found.tsx
+        ├── page.tsx
+        ├── [...not-found]/
+        │   └── page.tsx
+        └── settings/
+            ├── page.tsx
+            └── layout.tsx
+```
+
+> Note: this is an overly simplified file structure to explain how the routing works.
+
+There are a handful of things that happen when you set the routing up this way:
+
+1. Because every route is nested under `[lang]`, you will always have access to the `lang` param either as a parameter in server components like `layout` or `page`, as well as `useParams`.
+2. Defining [route groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups) as `(public)` and `(user)` allows us to separate the layouts, pages, and general data fetching we're doing for either authenticated or unauthenticated users.
+3. Note the [catch-all segment](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#catch-all-segments) in the `(user)` folder -- this is a file that just returns `notFound()` so that we can (1) translate the not found page and (2) correctly display that page within the authenticated navigation shell.
+
+## middleware set up
+
+Knowing how we want the middleware to behave, we can break the function down into a few steps:
+
+### set language config
+
+First, we set up some constants to reference throughout the middleware.
+
+``` javascript
+const languages = ['en', 'es'];
+const defaultLanguage = 'en'
+```
+
+### check for locale in path
+
+``` javascript
+import type { NextRequest } from 'next/server'
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const matches = pathname.match('^/([a-z]{2})(/.*)?$');
+  const language = !matches ? 'en' : matches[1];
+}
+```
+
+Inside the actual middleware function, we grab the `pathname` from the request and run it against a regex pattern that's looking for `/xx/` as the first part of the pathname. If you needed language and locale support, you could rewrite the regex to suit those needs. Otherwise, we set `langauge` to be either the default language, or the language passed in the path.
+
+### handle no locale
+
+``` javascript
+export async function middleware(request: NextRequest) {
+  // ...previous code
+
+  // no locale -- assume en and rewrite so nextjs gets lang params
+  // but user sees url without language
+  if (!matches) {
+    // note `newURL` 
+    return NextResponse.rewrite(newURL(`/${defaultLanguage}${pathname}`, request));
+  }
+}
+```
+
+When there is no locale, we *rewrite* the request so that NextJS sees locale included in the URL, while the user does NOT see the locale in the URL.
+
+Note the `newURL` function: we can't just pass the pathname because we're lose other parts of the url path. We knew we wanted to maintain (at the least) the query string params, so we wrote a function to pass those along:
+
+``` javascript
+// construct new url based on desired path and original request
+function newURL(url: string, originalRequest: NextRequest) {
+  const originalUrl = originalRequest.url;
+  const query = originalRequest.nextUrl.searchParams.toString();
+
+  const nextUrl = query ? `${url}?${query}` : url;
+
+  return new URL(nextUrl, originalUrl);
+}
+```
+
+### redirect if default locale is included
+
+``` javascript
+export async function middleware(request: NextRequest) {
+  // ...previous code
+  // redirect if defaultLanguage === language
+  if (language === defaultLanguage) {
+    return NextResponse.redirect(
+      newURL(
+        pathname.replace(`/${defaultLanguage}`, '/').replace('//', '/'),
+        request
+      )
+    );
+  }
+}
+```
+
+If the `language` matches the `defaultLanguage`, we want to remove the language from the url so it can be handled by the rewrite.
+
+### handle invalid language
+
+``` javascript
+export async function middleware(request: NextRequest) {
+  // ...previous code
+  const invalidLanguage = !languages.includes(languageFromPath);
+  if (invalidLanguage) {
+    return NextResponse.redirect(newURL(`/${defaultLanguage}${currPath}`, request));
+  }
+
+}
+```
+
+If the language we got from the path is not invluded in our languages array, route to the path but relative to the default language to either `200` throw a `404`.
+
+
+### allow passthrough
+
+If we have a valid language, we can just pass the request through.
+
+``` javascript
+export async function middleware(request: NextRequest) {
+  // ...previous code
+  return NextResponse.next();
+}
+```
+
+### clean up
+
+One thing you might notice is that we're not taking advantage of headers to pass the language around in requests. The main reason for this is simplicity and visibility: we don't want to obfuscate the user preferred language in a header when we can just have it as part of the URL.
+
+However, we could (and should) leverage the browser's unbuilt language handling. To do this, we can wrap our responses in a helper function:
+
+``` javascript
+function addLanguageRespHeader(resp: NextResponse, lang: string = 'en') {
+  resp.headers.set('Content-Language', lang);
+
+  return resp;
+}
+```
+
+Just pass along the `lang` as the second argument to set the header value:
+
+``` javascript
+  // ex.
+  return addLanguageRespHeader(NextResponse.next(), languageFromPath);
+```
+
+## wrapping up
+
+It might seem like a lot, but we can break the functionality of our middleware down to a few explicit steps and write the code ourselves. In the future, we'll probably package this along with instructions for composing it with other middleware.

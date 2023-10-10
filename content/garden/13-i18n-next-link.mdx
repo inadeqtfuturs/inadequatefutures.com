@@ -1,0 +1,198 @@
+---
+title: 'automatic i18n linking with nextjs 13 app router'
+author: 'alex christie'
+date: '2023-10-10T11:06:07-06:00'
+type: 'garden'
+tags: ['documentation', 'nextjs', 'i18n', 'app router', 'link']
+excerpt: automatic internationalized links and routing using NextJS's Link component and app router
+draft: false
+---
+
+Yesterday, I posted about [implementing i18n routing in a nextjs project]('/12-i18n-nextjs'), focusing on the `app` folder and middleware setup. This post follows from that post with an `I18NLink` component that leverages our i18n set up to automatically prefix your links with the user's current language. This way, you can do something like this:
+
+``` typescript
+<I18NLink href="/settings">{t('settings', 'Settings')}</I18NLink>
+```
+
+And the link will automatically pick up the `lang` param to route to either `/settings` or (for example) `/es/settings` depending on the `lang` in the url.
+
+Note: the `t` function is a stand in for a generic translation function that would take a key like `settings` and return a string or fallback to the second argument, which is "Settings".
+
+## wrapping the `Link` component
+
+The first thing we need to do is wrap NextJS's default `Link` component:
+
+``` typescript
+import type { ComponentProps } from 'react';
+import React from 'react';
+import Link from 'next/link';
+
+export type I18NLinkType = Omit<ComponentProps<typeof Link>, 'as'> & {
+  href: string;
+};
+
+function I18NLink({ children, href, ...props }: I18NLinkType) {
+  return (
+    <Link href={href} {...props}>
+      {children}
+    </Link>
+  )
+}
+```
+
+A few things are happening here:
+
+1. We are creating a new `I18NLinkType` by taking the `Link` type and omitting `as` so we can use the component polymorphically.
+2. We are defining `href` as a string since `Link` potentially accepts a `URL`.
+3. We then create a function that's more or less a pass-through: take the `href` and `children` and just pass them to `Link`.
+
+This isn't doing too much yet. We need to hook it into the `useParams` hook.
+
+## get current `lang` param
+
+Let's update the component:
+
+``` typescript
+import { useParams } from 'next/navigation';
+
+// generic import of your default language
+import { defaultLanguage } from 'settings';
+
+function I18NLink({ children, href, ...props }: I18NLinkType) {
+  const params = useParams();
+  const currentLanguage = (params?.lang as string) || defaultLanguage;
+
+  return (
+    <Link href={`${currentLanguage}${href}`} {...props}>
+      {children}
+    </Link>
+  )
+}
+```
+
+Note that `params` could be `null` or an empty `Record`, so we want to coerce `lang` as a string.
+
+This isn't a bad solution, but we're going to run into a few problems:
+
+1. We don't want to prepend the `defaultLanguage` if we don't have to since it'll cause an extra redirect in the middleware.
+2. We can't use the Link generically since it'll only work for relative paths. If we pass an absolute or external route, the url will be malformed.
+
+## checking incoming href
+
+What we need to do to prevent the above is check the incoming `href` and make decisions about what `href` to actually pass to `Link`.
+
+``` typescript
+function getPath(path?: string | null) {
+  // 1.
+  if (!path) {
+    return ['en', ''];
+  }
+
+  // 2.
+  const pathArray = path.split('/').filter((x) => !!x);
+
+  // 3. empty array
+  if (pathArray.length === 0) {
+    return ['en', ''];
+  }
+
+  // 4.
+  const [lang, ...restPath] = pathArray;
+
+  // 5.
+  if (languageArray.includes(lang)) {
+    return [lang, restPath.join('/')];
+  }
+
+  // 6.
+  return ['en', pathArray.join('/')];
+}
+
+
+function getPrefixedUrl(href: string, currentLanguage: string) {
+  // 1. handle absolute links
+  if (/^((http|https):\/\/)/.test(href)) {
+    return href;
+  }
+
+  // 2.
+  const [, tail] = getPath(href);
+
+  // 3.
+  if (currentLanguage === defaultLanguage) {
+    return `/${tail}`;
+  }
+
+  // 4.
+  return `/${currentLanguage}/${tail}`;
+}
+```
+
+Let's start with `getPrefixedUrl`:
+
+1. If the `href` starts with `http` or `https`, we should follow the absolute route provided.
+2. Otherwise, we want to get the url path without the `lang` param if it's provided.
+3. If the `currentLanguage` is also the default language, just pass the `tail` of the path
+4. Otherwise, prepend the current language to the `tail` of the path
+
+`getPath` might seem a little extraneous or verbose, but it's meant to help avoid issues with passing around the root and with overriding the `lang` provided in the url.
+
+1. If the `path` is null, return an array we can use to route the user to the root of the site.
+2. Take the path, and split it at `/`. The array is going to be easier to work with.
+3. If the array is empty because `path === '/'`, return an array we can use to route the user to the root of the site. 
+4. We want to deal with just `restPath` if (and only if) the first part of the url is actually an `lang` param.
+5. We do a check to ensure that `lang` is include in our `langaugeArray`, which tells us we can safely use `restPath`
+6. Otherwise we want to return the whole path we were provided
+
+With these helper functions, we can update the component:
+
+``` typescript
+function I18NLink({ children, href, ...props }: I18NLinkType) {
+  const params = useParams();
+  const currentLanguage = (params?.lang as string) || defaultLanguage;
+  const prefixedHref = getPrefixedUrl(href, currentLanguage);
+  return (
+    <Link href={prefixedHref} {...props}>
+      {children}
+    </Link>
+  )
+}
+```
+
+### bonus: anchor or `Link`
+
+If you want to escape the client cache with a "hard" route, you might want to be able to use *either* an anchor or `Link` component:
+
+``` typescript
+export type I18NLinkType = Omit<ComponentProps<typeof Link>, 'as'> & {
+  isAnchor?: boolean;
+  href: string;
+};
+
+function I18NLink({ children, href, isAnchor, ...props }: I18NLinkType) {
+  const params = useParams();
+  const currentLanguage = (params?.lang as string) || defaultLanguage;
+  const prefixedHref = getPrefixedUrl(href, currentLanguage);
+  if (isAnchor) {
+    return (
+      <a href={prefixedHref} {...props}>
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={prefixedHref} {...props}>
+      {children}
+    </Link>
+  )
+}
+```
+
+We can just use a `boolean` and render an anchor tag based on `isAnchor` if passed.
+
+## wrapping up
+
+It would be great to have a more built in way to handle internationalization in NextJS, however it only requires a little bit of boilerplate to get a full fledged i18n setup, including automatic i18n routing with NextJS's default `Link` component.
+
+Check out the full gist [here](https://gist.github.com/inadeqtfuturs/5281c16d825208fb36fec0ecb79d4d65).

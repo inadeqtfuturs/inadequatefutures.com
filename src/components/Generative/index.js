@@ -86,7 +86,7 @@ const CanvasWrapper = styled('div', {
   aspectRatio: '1 / 1',
   width: '100%',
   'canvas': {
-    animation: `${rotate} 240s infinite` 
+    animation: `${rotate} 360s infinite linear`
   },
 
   '&.loading': {

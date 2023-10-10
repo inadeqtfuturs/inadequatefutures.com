@@ -22,6 +22,12 @@ Slug.propTypes = {
 export async function getStaticProps({ params: { slug } }) {
   const props = await getPageProps(slug);
 
+  if (!props) {
+    return {
+      notFound: true
+    };
+  }
+
   return {
     props
   };

@@ -8,7 +8,7 @@ excerpt: automatic internationalized links and routing using NextJS's Link compo
 draft: false
 ---
 
-Yesterday, I posted about [implementing i18n routing in a nextjs project]('/12-i18n-nextjs'), focusing on the `app` folder and middleware setup. This post follows from that post with an `I18NLink` component that leverages our i18n set up to automatically prefix your links with the user's current language. This way, you can do something like this:
+Yesterday, I posted about [implementing i18n routing in a nextjs project](/garden/12-i18n-nextjs), focusing on the `app` folder and middleware setup. This post follows from that post with an `I18NLink` component that leverages our i18n set up to automatically prefix your links with the user's current language. This way, you can do something like this:
 
 ``` typescript
 <I18NLink href="/settings">{t('settings', 'Settings')}</I18NLink>

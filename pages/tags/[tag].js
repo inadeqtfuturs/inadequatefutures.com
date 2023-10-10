@@ -12,6 +12,14 @@ const PostsWrapper = styled('div', {
 });
 
 function Tag({ tag, posts }) {
+  if (posts.length < 1) {
+    return (
+      <>
+        <h1>we couldn't find anything tagged with '{tag}'</h1>
+      </>
+    );
+  }
+
   return (
     <>
       <h1>{tag}</h1>

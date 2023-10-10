@@ -82,6 +82,9 @@ const rotate = keyframes({
 });
 
 const CanvasWrapper = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   overflow: 'hidden',
   aspectRatio: '1 / 1',
   width: '100%',
@@ -115,7 +118,7 @@ function Canvas() {
 
   return (
     <CanvasWrapper className={loaded ? 'loaded' : 'loading'}>
-      <canvas className="canvas" ref={canvasRef} style={{ maxWidth: '100%', height: '100%'}} />;
+      <canvas className="canvas" ref={canvasRef} style={{ maxWidth: '100%', height: '100%'}} />
     </CanvasWrapper>
 
   ); 

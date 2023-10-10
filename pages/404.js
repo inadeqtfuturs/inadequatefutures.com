@@ -8,6 +8,7 @@ const Wrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  maxHeight: 'calc(100svh - 72px - 93px)',
   p: {
     maxWidth: 420,
     textAlign: 'center;'

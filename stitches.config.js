@@ -1,7 +1,7 @@
 import { createCss } from '@stitches/react';
 
 // https://components.ai/theme/LZ23GsXttzH7Q3Y0OIHM
-export const { styled, getCssString, global } = createCss({
+export const { styled, getCssString, global, keyframes } = createCss({
   theme: {
     colors: {
       gray900: '#000000',

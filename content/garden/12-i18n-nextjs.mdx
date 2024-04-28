@@ -173,7 +173,7 @@ export async function middleware(request: NextRequest) {
 
 One thing you might notice is that we're not taking advantage of headers to pass the language around in requests. The main reason for this is simplicity and visibility: we don't want to obfuscate the user preferred language in a header when we can just have it as part of the URL.
 
-However, we could (and should) leverage the browser's unbuilt language handling. To do this, we can wrap our responses in a helper function:
+However, we could (and should) leverage the browser's built-in language handling. To do this, we can wrap our responses in a helper function:
 
 ``` javascript
 function addLanguageRespHeader(resp: NextResponse, lang: string = 'en') {

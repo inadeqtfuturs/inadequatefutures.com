@@ -51,7 +51,7 @@ const StyledLink = styled(Link, {
 });
 
 const menuItems = [
-  { href: '/garden', label: 'garden' },
+  { href: '/garden', label: 'writing' },
   { href: '/work', label: 'work' },
   { href: '/about', label: 'about' },
 ];
